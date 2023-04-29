@@ -186,9 +186,6 @@ install_packages() {
         elevate pacman --sync --refresh --needed ${deps[@]}
     fi
     echo ''
-
-    # Find all files named *.sym in subdirectories
-    files=$(find . -type f -name "*.sym")
 }
 
 install_dotfiles () {
