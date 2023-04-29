@@ -1,0 +1,2 @@
+maybe install:
+* git-wtf
