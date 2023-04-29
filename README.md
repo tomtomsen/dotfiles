@@ -1,4 +1,4 @@
-# tomtomsen dotfiles v2
+# .dotfiles
 
 > __Disclaimer__: This project is work in progress
 
