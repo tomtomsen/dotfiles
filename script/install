@@ -120,7 +120,7 @@ link_file () {
         if [[ -n ${DRY_RUN} ]]; then
             info "${BLUE}Dry-run${NC}: rm -rf $GREEN\"$dst\"$NC"
         else
-            echo rm -rf "$dst"
+            rm -rf "$dst"
         fi
 
       success "removed $dst"
@@ -131,14 +131,14 @@ link_file () {
         if [[ -n ${DRY_RUN} ]]; then
             info "${BLUE}Dry-run${NC}: mv $GREEN\"$dst\"$NC $GREEN\"${dst}.backup\"$NC"
         else
-            echo mv "$dst" "${dst}.backup"
+            mv "$dst" "${dst}.backup"
         fi
-      success "moved $dst to ${dst}.backup"
+      success "moved ${GREEN}$dst${NC} to ${GREEN}${dst}.backup${NC}"
     fi
 
     if [ "$skip" == "true" ]
     then
-      success "skipped $GREEN$src$NC"
+      success "skipped ${GREEN}$src${NC}"
     fi
   fi
 
@@ -147,7 +147,7 @@ link_file () {
         if [[ -n ${DRY_RUN} ]]; then
             info "${BLUE}Dry-run${NC}: ln -s $GREEN\"$1\"$NC $GREEN\"$2\"$NC"
         else
-            echo ln -s "$1" "$2"
+            ln -s "$1" "$2"
         fi
     success "linked $GREEN$1$NC to $GREEN$2$NC"
   fi
