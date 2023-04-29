@@ -129,7 +129,7 @@ link_file () {
     if [ "$backup" == "true" ]
     then
         if [[ -n ${DRY_RUN} ]]; then
-            info "${BLUE}Dry-run${NC}: mv $GREEN\"$dst\"$NC $GREEN\"${dst}.backup\"$NC"
+            info "${BLUE}Dry-run${NC}: mv ${GREEN}\"$dst\"${NC} ${GREEN}\"${dst}.backup\"${NC}"
         else
             mv "$dst" "${dst}.backup"
         fi
@@ -144,12 +144,18 @@ link_file () {
 
   if [ "$skip" != "true" ]  # "false" or empty
   then
-        if [[ -n ${DRY_RUN} ]]; then
-            info "${BLUE}Dry-run${NC}: ln -s $GREEN\"$1\"$NC $GREEN\"$2\"$NC"
-        else
-            ln -s "$1" "$2"
-        fi
-    success "linked $GREEN$1$NC to $GREEN$2$NC"
+    parent=$(dirname "$2")
+    if [ ! -d "$parent" ]
+    then
+      mkdir -p "$parent"
+    fi
+
+    if [[ -n ${DRY_RUN} ]]; then
+        info "${BLUE}Dry-run${NC}: ln -s ${GREEN}\"$1\"${NC} ${GREEN}\"$2\"${NC}"
+    else
+        ln -s "$1" "$2"
+    fi
+    success "linked ${GREEN}$1${NC} to ${GREEN}$2${NC}"
   fi
 }
 
@@ -179,6 +185,7 @@ install_packages() {
     else
         elevate pacman -Sy ${deps[@]}
     fi
+    echo ''
 
     # Find all files named *.sym in subdirectories
     files=$(find . -type f -name "*.sym")
@@ -191,7 +198,8 @@ install_dotfiles () {
 
   for src in $(find -H "$DOTFILES_ROOT" -maxdepth 2 -name '*.sym' -not -path '*.git*')
   do
-    dst="$HOME/.$(basename "${src%.*}")"
+    dst=$(basename "${src%.*}")
+    dst="$HOME/.${dst//+//}"
     link_file "$src" "$dst"
   done
 }
