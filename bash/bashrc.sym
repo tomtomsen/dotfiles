@@ -15,3 +15,8 @@ PATH=~/bin:$PATH
 if command -v starship &> /dev/null; then
     eval "$(starship init bash)"
 fi
+
+# Neofetch
+if command -v neofetch &> /dev/null; then
+    neofetch
+fi
