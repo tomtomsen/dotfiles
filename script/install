@@ -122,7 +122,7 @@ link_file () {
         else
             echo rm -rf "$dst"
         fi
-      
+
       success "removed $dst"
     fi
 
@@ -173,7 +173,7 @@ install_packages() {
     # Install packages using pacman
     output "Installing packages: ${GREEN}${deps[@]}${NC}"
     echo ''
-    
+
     if [[ -n ${DRY_RUN} ]]; then
         info "${BLUE}Dry-run${NC}: elevate pacman -Sy ${deps[@]}"
     else
