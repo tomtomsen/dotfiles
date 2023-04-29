@@ -37,6 +37,22 @@ output() {
     echo -e "$@"
 }
 
+parse_options() {
+    while [[ $# -gt 0 ]]; do
+        key="$1"
+        case $key in
+            -n|--dry-run)
+                DRY_RUN=1
+                shift
+                ;;
+            *)
+                echo "Unknown option: ${key}"
+                exit 1
+                ;;
+        esac
+    done
+}
+
 elevate() {
     if [[ $EUID -ne 0 ]]; then
         sudo "$@"
@@ -101,13 +117,22 @@ link_file () {
 
     if [ "$overwrite" == "true" ]
     then
-      echo rm -rf "$dst"
+        if [[ -n ${DRY_RUN} ]]; then
+            info "${BLUE}Dry-run${NC}: rm -rf $GREEN\"$dst\"$NC"
+        else
+            echo rm -rf "$dst"
+        fi
+      
       success "removed $dst"
     fi
 
     if [ "$backup" == "true" ]
     then
-      echo mv "$dst" "${dst}.backup"
+        if [[ -n ${DRY_RUN} ]]; then
+            info "${BLUE}Dry-run${NC}: mv $GREEN\"$dst\"$NC $GREEN\"${dst}.backup\"$NC"
+        else
+            echo mv "$dst" "${dst}.backup"
+        fi
       success "moved $dst to ${dst}.backup"
     fi
 
@@ -119,7 +144,11 @@ link_file () {
 
   if [ "$skip" != "true" ]  # "false" or empty
   then
-    echo ln -s "$1" "$2"
+        if [[ -n ${DRY_RUN} ]]; then
+            info "${BLUE}Dry-run${NC}: ln -s $GREEN\"$1\"$NC $GREEN\"$2\"$NC"
+        else
+            echo ln -s "$1" "$2"
+        fi
     success "linked $GREEN$1$NC to $GREEN$2$NC"
   fi
 }
@@ -144,7 +173,12 @@ install_packages() {
     # Install packages using pacman
     output "Installing packages: ${GREEN}${deps[@]}${NC}"
     echo ''
-    # elevate pacman -Sy ${deps[@]}
+    
+    if [[ -n ${DRY_RUN} ]]; then
+        info "${BLUE}Dry-run${NC}: elevate pacman -Sy ${deps[@]}"
+    else
+        elevate pacman -Sy ${deps[@]}
+    fi
 
     # Find all files named *.sym in subdirectories
     files=$(find . -type f -name "*.sym")
@@ -162,5 +196,6 @@ install_dotfiles () {
   done
 }
 
+parse_options "$@"
 install_packages
 install_dotfiles
