@@ -183,7 +183,7 @@ install_packages() {
     if [[ -n ${DRY_RUN} ]]; then
         info "${BLUE}Dry-run${NC}: elevate pacman -Sy ${deps[@]}"
     else
-        elevate pacman -Sy ${deps[@]}
+        elevate pacman --sync --refresh --needed ${deps[@]}
     fi
     echo ''
 
