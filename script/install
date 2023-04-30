@@ -19,6 +19,14 @@ PACKAGES=(
   "bash" 
   "zsh"
   "starship"
+
+  # notifier
+  "dunst"
+  "mako"
+)
+
+YAY_PACKAGES=(
+  "flavours"
 )
 
 # Define colors
@@ -186,6 +194,19 @@ install_packages() {
     echo ''
 }
 
+install_yay_packages() {
+    # Install packages using yay
+    output "Installing packages: ${GREEN}${YAY_PACKAGES[@]}${NC}"
+    echo ''
+
+    if [[ -n ${DRY_RUN} ]]; then
+        info "${BLUE}Dry-run${NC}: elevate yay -Sy ${YAY_PACKAGES[@]}"
+    else
+        elevate yay --sync --refresh --needed ${YAY_PACKAGES[@]}
+    fi
+    echo ''
+}
+
 install_dotfiles () {
   info 'Installing dotfiles'
 
@@ -199,6 +220,15 @@ install_dotfiles () {
   done
 }
 
+post_install() {
+  info 'Post install'
+
+  info 'update flavours'
+  flavours update all
+}
+
 parse_options "$@"
 install_packages
+install_yay_packages
 install_dotfiles
+post_install
