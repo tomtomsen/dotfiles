@@ -7,6 +7,20 @@ set -e
 cd "$(dirname $0)"/..
 DOTFILES_ROOT=$(pwd -P)
 
+PACKAGES=(
+  "bat"
+  "bat-extras"
+  "git"
+
+  # terminal emulator
+  "foot"
+
+  # shell
+  "bash" 
+  "zsh"
+  "starship"
+)
+
 # Define colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -160,30 +174,14 @@ link_file () {
 }
 
 install_packages() {
-    # Find all files named pacman.dependencies in subdirectories
-    files=$(find . -type f -name "pacman.dependencies")
-
-    # Extract contents of each file and append to list
-    deps=()
-    info Processing dependencies...
-    for file in $(find -H "$DOTFILES_ROOT" -maxdepth 2 -name 'pacman.dependencies' -not -path '*.git*')
-    do
-        output "\r   ${GREEN}$file${NC}"
-        deps+=( $(grep -v -e '^#' -e '^$' $file) )
-    done
-    output ""
-
-    # Remove duplicate entries from list
-    deps=( $(echo "${deps[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' ') )
-
     # Install packages using pacman
-    output "Installing packages: ${GREEN}${deps[@]}${NC}"
+    output "Installing packages: ${GREEN}${PACKAGES[@]}${NC}"
     echo ''
 
     if [[ -n ${DRY_RUN} ]]; then
-        info "${BLUE}Dry-run${NC}: elevate pacman -Sy ${deps[@]}"
+        info "${BLUE}Dry-run${NC}: elevate pacman -Sy ${PACKAGES[@]}"
     else
-        elevate pacman --sync --refresh --needed ${deps[@]}
+        elevate pacman --sync --refresh --needed ${PACKAGES[@]}
     fi
     echo ''
 }
