@@ -1,0 +1,20 @@
+[[items]]
+file = "~/.config/hypr/foot/colors.ini"
+template = "foot"
+
+[[items]]
+file = "~/.config/nvim/local_init.vim"
+template = "vim"
+rewrite = true
+
+[[items]]
+file = "~/.config/hypr/waybar/colors.css"
+template = "waybar"
+start= "/* Start flavours */"
+end = "/* End flavours */"
+
+[[items]]
+file = "~/.config/mako/config"
+template = "mako"
+start= "# Start flavours"
+end = "# End flavours"
