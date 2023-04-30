@@ -10,10 +10,12 @@ error_symbol = '[](red)'
 [[battery.display]]
 threshold = 10
 style = 'red'
+discharging_symbol = ' '
 
 [[battery.display]]
 threshold = 30
 style = 'yellow'
+discharging_symbol = ' '
 
 [[battery.display]]
 threshold = 100
