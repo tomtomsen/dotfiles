@@ -56,3 +56,24 @@ default-timeout=0
 border-color=#E49186
 default-timeout=2000
 group-by=category
+
+# Start flavours
+## Base16 OneDark
+# Author: Lalit Magant (http://github.com/tilal6991)
+#
+# You can use these variables anywhere in the mako configuration file.
+
+background-color=#282c34
+text-color=#abb2bf
+border-color=#61afef
+
+[urgency=low]
+background-color=#282c34
+text-color=#e5c07b
+border-color=#61afef
+
+[urgency=high]
+background-color=#282c34
+text-color=#e06c75
+border-color=#61afef
+# End flavours
