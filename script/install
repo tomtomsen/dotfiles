@@ -23,6 +23,9 @@ PACKAGES=(
   # notifier
   "dunst"
   "mako"
+
+  # fonts
+  "ttf-jetbrains-mono-nerd"
 )
 
 YAY_PACKAGES=(

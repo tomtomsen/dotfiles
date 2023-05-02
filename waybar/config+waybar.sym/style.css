@@ -1,21 +1,15 @@
-/* 
- * Copyright (C) 2020-2023 Aditya Shakya <adi1090x@gmail.com>
-*/
-
-/** ********** Import Colors ********** **/
 @import "./colors.css";
 
 /** ********** Fonts ********** **/
 * {
-    font-family: "JetBrains Mono", "Iosevka Nerd Font", archcraft, sans-serif;
-    font-size: 14px;
+    font-family: "JetBrainsMonoNL Nerd Font", sans-serif;
+    font-size: 12px;
 }
 
 /** ********** Waybar Window ********** **/
 window#waybar {
     background-color: rgba(0, 0, 0, 0.3); /* @base00; */
 	color: @base07;
-    border-bottom: 2px solid @base02;
     transition-property: background-color;
     transition-duration: .5s;
 }
@@ -119,32 +113,6 @@ window#waybar.hidden {
 #mpd.2,#mpd.3,#mpd.4 {
 	background-color: @base02;
 	font-size: 14px;
-}
-
-/** ********** Spotify ********** **/
-#custom-spotify {
-	background-color: @base02;
-	color: @base07;
-	border-radius: 10px;
-	margin: 6px 0px 6px 6px ;
-	padding: 4px 8px;
-	font-size: 12px;
-	font-weight: bold;
-}
-
-#custom-spotify.paused {
-	color: @base07;
-}
-
-#custom-spotify.playing {
-    background: linear-gradient(90deg, @base0E 25%, @base08 50%, @base0A 75%, @base0C 100%); 
-    background-size: 300% 300%;
-    animation: gradient 10s ease infinite;
-    color: @base00;
-}
-
-#custom-spotify.offline {
-	color: @base08;
 }
 
 /** ********** CPU ********** **/
