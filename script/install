@@ -202,7 +202,7 @@ install_yay_packages() {
     if [[ -n ${DRY_RUN} ]]; then
         info "${BLUE}Dry-run${NC}: elevate yay -Sy ${YAY_PACKAGES[@]}"
     else
-        elevate yay --sync --refresh --needed ${YAY_PACKAGES[@]}
+        yay --sync --refresh --needed ${YAY_PACKAGES[@]}
     fi
     echo ''
 }
