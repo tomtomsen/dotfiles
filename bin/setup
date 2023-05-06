@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o nounset
+set -o pipefail
+if [[ "${TRACE-0}" == "1" ]]; then
+    set -o xtrace
+fi
+
+if [[ "${1-}" =~ ^-*h(elp)?$ ]]; then
+    help
+fi
+
+cd "$(dirname "$0")"
+
+MONITOR_LAPTOP=2256x1504@60
+MONITOR_HOME=1920x1080@60
+MONITOR_INVITARIO=2560x1440@60
+
+help() {
+    echo 'Usage: ./setup <name>
+
+    name: name of the setup to run
+'
+    exit
+}
+
+workspace_bind() {
+    local main="${1-}"
+    local second="${2-}"
+
+    hyprctl keyword workspace 1,monitor:${main},default:true
+    echo hyprctl keyword workspace 1,monitor:${main},default:true
+    hyprctl keyword workspace 2,monitor:${main},default:true
+    hyprctl keyword workspace 3,monitor:${main},default:true
+    hyprctl keyword workspace 4,monitor:${main},default:true
+    hyprctl keyword workspace 5,monitor:${main},default:true
+    hyprctl keyword workspace 6,monitor:${main},default:true
+    hyprctl keyword workspace 7,monitor:${main},default:true
+    hyprctl keyword workspace 8,monitor:${main},default:true
+    hyprctl keyword workspace 9,monitor:${main},default:true
+    hyprctl keyword workspace 10,monitor:${second},default:true
+}
+
+main() {
+    local name="${1-}"
+
+    case "${name}" in
+        "reset")        
+            hyprctl keyword monitor DP-4,disable
+            hyprctl keyword monitor eDP-1,${MONITOR_LAPTOP},0x0,1
+            workspace_bind eDP-1 eDP-1
+            ;;
+        "home-monitor-top")
+            hyprctl keyword monitor DP-4,${MONITOR_HOME},0x0,1
+            hyprctl keyword monitor eDP-1,${MONITOR_LAPTOP},0x1080,1
+            workspace_bind DP-4 eDP-1
+            ;;
+        "home-monitor-right")
+            hyprctl keyword monitor eDP-1,${MONITOR_LAPTOP},0x0,1
+            hyprctl keyword monitor DP-4,${MONITOR_HOME},2256x0,1
+            workspace_bind DP-4 eDP-1
+            ;;
+        "invitario")
+            hyprctl keyword monitor DP-4,${MONITOR_INVITARIO},0x0,1 
+            hyprctl keyword monitor eDP-1,${MONITOR_LAPTOP},0x1440,1
+            workspace_bind DP-4 eDP-1
+            ;;
+        *)
+            echo "Unknown setup: ${name}"
+            exit 1
+            ;;
+    esac
+}
+
+# one argument required
+if [[ $# -ne 1 ]]; then
+    help
+fi
+
+main "$@"
