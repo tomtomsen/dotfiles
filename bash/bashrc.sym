@@ -31,4 +31,5 @@ get_bin_path() {
     echo $(realpath $DIR/../bin)
 }
 
+export PATH=$HOME/.local/bin:$PATH
 export PATH=$(get_bin_path):$PATH
