@@ -11,6 +11,7 @@ PACKAGES=(
   "bat"
   "bat-extras"
   "git"
+  "wget"
 
   # terminal emulator
   "foot"
