@@ -97,21 +97,47 @@
 
     // waybar - airpods
     "custom/airpods": {
-        "exec": "$HOME/.config/waybar/scripts/airpods icon",
+        "exec": "$HOME/.config/waybar/scripts/bluetooth Airpods icon",
         "interval": 1,
         "return-type": "json",
         "tooltip": true,
         "max-length": 40,
-        "on-click": "$HOME/.config/hypr/waybar/airpods toggle"
+        "on-click": "$HOME/.config/waybar/scripts/bluetooth Airpods toggle"
     },
 
     "custom/airpods#2": {
-        "exec": "$HOME/.config/hypr/waybar/airpods status",
+        "exec": "$HOME/.config/waybar/scripts/bluetooth Airpods status",
         "interval": 1,
         "return-type": "json",
         "tooltip": true,
         "max-length": 40,
-        "on-click": "$HOME/.config/hypr/waybar/airpods toggle"
+        "on-click": "$HOME/.config/waybar/scripts/bluetooth Airpods toggle"
+    },
+
+    "custom/pacman": {
+        "format": "{icon}",
+        "return-type": "json",
+        "format-icons": {
+            "has-updates": "󱍷",
+            "updated": "󰂪"
+        },
+        "exec-if": "which waybar-module-pacman-updates",
+        "exec": "waybar-module-pacman-updates",
+        "on-click": "foot update-os; pkill -SIGRTMIN+8 waybar"
+ 
+    },
+
+    "custom/pacman#2": {
+        "format": "{}",
+        "return-type": "json",
+        "format-icons": {
+            "has-updates": "󱍷",
+            "updated": "󰂪"
+        },
+        "exec-if": "which waybar-module-pacman-updates",
+        "exec": "waybar-module-pacman-updates",
+        "on-click": "foot update-os; pkill -SIGRTMIN+8 waybar",
+        "signal": 8
     },
 
 	// waybar-disk

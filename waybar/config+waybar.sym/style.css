@@ -236,11 +236,12 @@ window#waybar.hidden {
 #memory,
 #pulseaudio,
 #network,
-#custom-airpods {
+#custom-airpods,
+#custom-pacman {
 	background-color: @base02;
 	border-radius: 10px 0px 0px 10px;
-	margin: 6px 0px 6px 0px ;
-	padding: 4px 6px;
+	margin: 6px 0px 6px 0px;
+	padding: 4px 10px;
 }
 
 #backlight.2, 
@@ -251,7 +252,9 @@ window#waybar.hidden {
 #memory.2,
 #pulseaudio.2,
 #network.2,
-#custom-airpods.2 {
+#custom-airpods.2,
+#custom-pacman.2 
+{
 	background-color: @base03;
 	color: @base07;
 	font-size: 12px;
