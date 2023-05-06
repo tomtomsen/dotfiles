@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+DEVICE=$1
+COMMAND=$2
+status=$(bluetoothctl devices Connected 2> /dev/null | grep -c "$DEVICE")
+
+LABEL="$DEVICE"
+
+if [ "$status" = "0" ]; thenx
+    CLASS="disconnected"
+else
+    CLASS="connected"
+fi
+
+if [ "$COMMAND" = "toggle" ]; then
+    if [ "$status" = "0" ]; then
+        bluetoothctl devices | grep $DEVICE | awk '{print $2}' | xargs bluetoothctl connect
+    else
+        bluetoothctl devices | grep $DEVICE | awk '{print $2}' | xargs bluetoothctl disconnect
+    fi
+elif [ "$COMMAND" = "icon" ]; then
+    if [ "$status" = "0" ]; then
+        LABEL="󰟎" # Disconnected
+    else
+        LABEL="󰥰" # Connected
+    fi
+fi
+
+echo "{\"text\":\"$LABEL\",\"class\":\"$CLASS\"}"
