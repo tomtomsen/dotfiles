@@ -2,6 +2,13 @@
 # ~/.bashrc
 #
 
+export TERM="xterm-256color"
+export HISTORYCONTROL=ignoredups:erasedups
+# export EDITOR=
+# export VISUAL=
+
+export MANPAGER="sh -c 'col --no-backspaces --spaces | bat -l man -p"
+
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
