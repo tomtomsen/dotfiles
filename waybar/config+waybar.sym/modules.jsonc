@@ -123,6 +123,7 @@
         },
         "exec-if": "which waybar-module-pacman-updates",
         "exec": "waybar-module-pacman-updates",
+        "interval": 60,
         "on-click": "foot update-os; pkill -SIGRTMIN+8 waybar"
  
     },
@@ -136,8 +137,8 @@
         },
         "exec-if": "which waybar-module-pacman-updates",
         "exec": "waybar-module-pacman-updates",
+        "interval": 60,
         "on-click": "foot update-os; pkill -SIGRTMIN+8 waybar",
-        "signal": 8
     },
 
 	// waybar-disk
