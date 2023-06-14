@@ -1,4 +1,8 @@
-.DS_Store
-*~
-*.swp
+.idea/
+.direnv/
+.idea/
+.nix-node/
+
+node_modules/
+
 *.bak
