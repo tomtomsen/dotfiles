@@ -1,29 +1,75 @@
 #!/usr/bin/env bash
 
-DEVICE=$1
-COMMAND=$2
-status=$(bluetoothctl devices Connected 2> /dev/null | grep -c "$DEVICE")
-
-LABEL="$DEVICE"
-
-if [ "$status" = "0" ]; thenx
-    CLASS="disconnected"
-else
-    CLASS="connected"
+set -o nounset
+set -o pipefail
+if [[ "${TRACE-0}" == "1" ]]; then
+  set -o xtrace
 fi
 
-if [ "$COMMAND" = "toggle" ]; then
-    if [ "$status" = "0" ]; then
-        bluetoothctl devices | grep $DEVICE | awk '{print $2}' | xargs bluetoothctl connect
-    else
-        bluetoothctl devices | grep $DEVICE | awk '{print $2}' | xargs bluetoothctl disconnect
-    fi
-elif [ "$COMMAND" = "icon" ]; then
-    if [ "$status" = "0" ]; then
-        LABEL="󰟎" # Disconnected
-    else
-        LABEL="󰥰" # Connected
-    fi
+help() {
+
+  echo 'Usage: ./bluetooth <command> <device>
+
+Commands:
+  toggle
+  icon
+
+Devices:
+  Airpods
+'
+}
+
+if [[ "${1-}" =~ ^-*h(elp)?$ ]]; then
+  help
+  exit 0
 fi
 
-echo "{\"text\":\"$LABEL\",\"class\":\"$CLASS\"}"
+# at least two arguments required
+if [[ $# -lt 2 ]]; then
+  help
+  exit 1
+fi
+
+cd "$(dirname "$0")"
+
+main() {
+  COMMAND=${1:-}
+  DEVICE=${2:-}
+
+  status=$(bluetoothctl devices Connected 2> /dev/null | grep -ic "Airpods")
+
+  LABEL="$DEVICE"
+
+  if [ "$status" = "0" ]; then
+      CLASS="disconnected"
+  else
+      CLASS="connected"
+  fi
+
+  if [ "$COMMAND" = "toggle" ]; then
+      if [ "$status" = "0" ]; then
+          bluetoothctl devices | grep -i $DEVICE | awk '{print $2}' | xargs bluetoothctl connect
+      else
+          bluetoothctl devices | grep -i $DEVICE | awk '{print $2}' | xargs bluetoothctl disconnect
+      fi
+
+      status=$(bluetoothctl devices Connected 2> /dev/null | grep -ic "Airpods")
+
+      if [ "$status" = "0" ]; then
+          CLASS="disconnected"
+      else
+          CLASS="connected"
+      fi
+  elif [ "$COMMAND" = "icon" ]; then
+      if [ "$status" = "0" ]; then
+          LABEL="󰟎" # Disconnected
+      else
+          LABEL="󰥰" # Connected
+      fi
+  fi
+
+  echo "{\"text\":\"$LABEL\",\"class\":\"$CLASS\"}"
+
+}
+
+main "$@"
